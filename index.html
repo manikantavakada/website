@@ -3,611 +3,568 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fill That Gap – Bridging Businesses To Extraordinary Growth</title>
+<title>Fill That Gap — Growth Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* ════════════════════════════════════════════
+   RESET & TOKENS
+════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+:root{
+  --black:#050507;
+  --off-black:#0a0a0e;
+  --charcoal:#0f0f14;
+  --surface:#15151c;
+  --gold:#c9a84c;
+  --gold-l:#e8c97a;
+  --gold-d:rgba(201,168,76,0.15);
+  --gold-xs:rgba(201,168,76,0.06);
+  --blue:#4a8ef0;
+  --blue-d:rgba(74,142,240,0.1);
+  --text:#f0eee8;
+  --muted:#6b6b7a;
+  --dimmer:#3a3a4a;
+  --border:rgba(201,168,76,0.1);
+  --border2:rgba(255,255,255,0.06);
+  --glass:rgba(255,255,255,0.025);
+  --glass-g:rgba(201,168,76,0.05);
+  --ff-display:'Bebas Neue',sans-serif;
+  --ff-serif:'Playfair Display',serif;
+  --ff-body:'Inter',sans-serif;
+}
+body{font-family:var(--ff-body);background:var(--black);color:var(--text);overflow-x:hidden;line-height:1.6;}
+img,video{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
-  :root {
-    --black: #050507;
-    --charcoal: #0d0d12;
-    --surface: #111118;
-    --surface2: #16161f;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-dim: rgba(201,168,76,0.15);
-    --gold-dim2: rgba(201,168,76,0.06);
-    --blue: #4a8ef0;
-    --blue-dim: rgba(74,142,240,0.12);
-    --text: #f0eee8;
-    --text-muted: #7a7a8a;
-    --text-dim: #4a4a5a;
-    --border: rgba(201,168,76,0.12);
-    --border-blue: rgba(74,142,240,0.15);
-    --glass: rgba(255,255,255,0.03);
-    --glass-gold: rgba(201,168,76,0.06);
-  }
+/* ── Scrollbar */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.25);border-radius:2px;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+/* ════════════════════════════════════════════
+   NOISE + CURSOR GLOW
+════════════════════════════════════════════ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.35;
+}
+#cursor-glow{
+  position:fixed;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,0.06),transparent 70%);
+  pointer-events:none;z-index:1;transform:translate(-50%,-50%);
+  transition:transform .08s ease;will-change:transform;
+}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--black);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
+/* ════════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════════ */
+.container{max-width:1280px;margin:0 auto;padding:0 48px;}
+.section-pad{padding:140px 0;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px;}
+.gold{background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold-d),rgba(74,142,240,.12),var(--gold-d),transparent);}
 
-  /* Noise texture */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none; opacity: 0.4;
-  }
+/* ── Reveal */
+.r{opacity:0;transform:translateY(48px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.r.on{opacity:1;transform:none;}
+.r1{transition-delay:.1s;} .r2{transition-delay:.2s;} .r3{transition-delay:.3s;} .r4{transition-delay:.4s;}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 20px 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(5,5,7,0.75);
-    backdrop-filter: blur(24px);
-    border-bottom: 1px solid var(--border);
-    transition: all 0.3s;
-  }
-  .nav-logo {
-    font-size: 18px; font-weight: 800; letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 36px; }
-  .nav-links a {
-    color: var(--text-muted); text-decoration: none; font-size: 13px;
-    font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--gold-light); }
-  .nav-cta {
-    padding: 10px 24px; border-radius: 6px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #000; font-size: 13px; font-weight: 700;
-    text-decoration: none; letter-spacing: 0.3px;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+/* ── Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 32px;border-radius:6px;
+  font-size:14px;font-weight:700;letter-spacing:.3px;
+  transition:all .3s;
+}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  color:#000;box-shadow:0 0 28px rgba(201,168,76,.22);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 48px rgba(201,168,76,.38);}
+.btn-ghost{
+  border:1px solid rgba(255,255,255,.14);color:var(--text);
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-xs);}
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh; position: relative;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; padding: 120px 40px 80px;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.09) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(74,142,240,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 20% 70%, rgba(201,168,76,0.05) 0%, transparent 50%),
-      var(--black);
-  }
-  .orb {
-    position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
-    animation: float 8s ease-in-out infinite;
-  }
-  .orb1 { width: 500px; height: 500px; top: -100px; right: -100px;
-    background: radial-gradient(circle, rgba(201,168,76,0.09), transparent 70%); animation-delay: 0s; }
-  .orb2 { width: 400px; height: 400px; bottom: -50px; left: -80px;
-    background: radial-gradient(circle, rgba(74,142,240,0.07), transparent 70%); animation-delay: -3s; }
-  .orb3 { width: 300px; height: 300px; top: 40%; left: 30%;
-    background: radial-gradient(circle, rgba(201,168,76,0.04), transparent 70%); animation-delay: -5s; }
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-30px) scale(1.05); }
-  }
-  .grid-lines {
-    position: absolute; inset: 0; z-index: 0; opacity: 0.025;
-    background-image:
-      linear-gradient(rgba(201,168,76,1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,1) 1px, transparent 1px);
-    background-size: 80px 80px;
-  }
+/* ════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:20px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,5,7,.72);backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--border);
+  transition:all .35s;
+}
+nav.scrolled{background:rgba(5,5,7,.96);border-color:rgba(201,168,76,.18);}
+.nav-logo{
+  font-family:var(--ff-display);font-size:22px;letter-spacing:2px;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:40px;}
+.nav-links a{font-size:13px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+.nav-links a:hover{color:var(--gold-l);}
+.nav-cta{padding:10px 24px;border-radius:5px;background:linear-gradient(135deg,var(--gold-l),var(--gold));color:#000;font-size:13px;font-weight:700;letter-spacing:.4px;transition:all .25s;}
+.nav-cta:hover{opacity:.82;transform:translateY(-1px);}
 
-  .hero-content { position: relative; z-index: 2; max-width: 920px; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 9px 22px; border-radius: 100px;
-    border: 1px solid var(--border);
-    background: var(--glass-gold);
-    backdrop-filter: blur(12px);
-    font-size: 11px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 44px;
-    animation: fadeUp 0.8s ease both;
-  }
-  .badge-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--gold); box-shadow: 0 0 8px var(--gold);
-    animation: blink 2s ease-in-out infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+/* ════════════════════════════════════════════
+   HERO — full-screen video background
+════════════════════════════════════════════ */
+.hero{
+  position:relative;min-height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:130px 48px 80px;
+}
 
-  .hero h1 {
-    font-size: clamp(36px, 6vw, 76px);
-    font-weight: 900; line-height: 1.0; letter-spacing: -3px;
-    margin-bottom: 28px;
-    animation: fadeUp 0.8s ease 0.1s both;
-  }
-  .hero h1 .gold-text {
-    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, #e0b84a 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .hero-sub {
-    font-size: clamp(14px, 1.8vw, 18px); color: var(--text-muted);
-    max-width: 650px; margin: 0 auto 52px;
-    font-weight: 400; line-height: 1.85;
-    animation: fadeUp 0.8s ease 0.2s both;
-  }
-  .hero-btns {
-    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-    margin-bottom: 72px;
-    animation: fadeUp 0.8s ease 0.3s both;
-  }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 16px 36px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #000; font-size: 14px; font-weight: 700;
-    text-decoration: none; letter-spacing: 0.2px;
-    transition: all 0.3s; box-shadow: 0 0 32px rgba(201,168,76,0.25);
-    cursor: pointer; border: none;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 52px rgba(201,168,76,0.4); }
-  .btn-secondary {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 16px 36px; border-radius: 8px;
-    background: transparent; color: var(--text);
-    border: 1px solid rgba(255,255,255,0.15); font-size: 14px; font-weight: 600;
-    text-decoration: none; transition: all 0.3s; cursor: pointer;
-  }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+/* Video BG */
+.hero-video-bg{
+  position:absolute;inset:0;z-index:0;
+}
+.hero-video-bg video{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.28) saturate(1.1);
+}
+/* dark overlay gradient on top of video */
+.hero-video-bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to bottom, var(--black) 0%, rgba(5,5,7,.2) 30%, rgba(5,5,7,.2) 70%, var(--black) 100%),
+    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(201,168,76,.07) 0%, transparent 70%);
+}
 
-  .hero-stats {
-    display: flex; justify-content: center;
-    border: 1px solid var(--border);
-    background: var(--glass); backdrop-filter: blur(20px);
-    border-radius: 16px; overflow: hidden;
-    animation: fadeUp 0.8s ease 0.4s both;
-    max-width: 740px; margin: 0 auto;
-  }
-  .stat-item {
-    flex: 1; padding: 26px 20px; text-align: center;
-    border-right: 1px solid var(--border);
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-num {
-    font-size: clamp(22px, 3vw, 32px); font-weight: 900; letter-spacing: -1px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: block;
-  }
-  .stat-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 5px; text-transform: uppercase; }
+/* Grid lines */
+.hero-grid{
+  position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.02;
+  background-image:linear-gradient(rgba(201,168,76,1) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,1) 1px,transparent 1px);
+  background-size:80px 80px;
+}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* Floating orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:float 9s ease-in-out infinite;z-index:1;}
+.orb1{width:600px;height:600px;top:-120px;right:-120px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);animation-delay:0s;}
+.orb2{width:450px;height:450px;bottom:-60px;left:-100px;background:radial-gradient(circle,rgba(74,142,240,.06),transparent 70%);animation-delay:-3.5s;}
+.orb3{width:350px;height:350px;top:45%;left:35%;background:radial-gradient(circle,rgba(201,168,76,.04),transparent 70%);animation-delay:-6s;}
+@keyframes float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-28px) scale(1.04);}}
 
-  /* ── DIVIDER ── */
-  .section-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-dim), rgba(74,142,240,0.15), var(--gold-dim), transparent);
-  }
+.hero-content{position:relative;z-index:2;max-width:1000px;}
 
-  /* ── COMMON ── */
-  section { position: relative; overflow: hidden; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
-  .section-pad { padding: 120px 0; }
+/* Badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:9px 22px;border-radius:100px;
+  border:1px solid var(--border);background:var(--glass-g);backdrop-filter:blur(16px);
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+  margin-bottom:36px;animation:fadeUp .8s ease both;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
-  .eyebrow {
-    font-size: 11px; font-weight: 700; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 16px; display: block;
-  }
-  .section-title {
-    font-size: clamp(28px, 4vw, 52px);
-    font-weight: 900; letter-spacing: -2px; line-height: 1.05;
-    margin-bottom: 20px;
-  }
-  .accent {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .section-desc { color: var(--text-muted); max-width: 560px; line-height: 1.85; font-size: 16px; }
+/* Giant headline */
+.hero-h1{
+  font-family:var(--ff-display);
+  font-size:clamp(56px,10vw,130px);
+  line-height:.92;letter-spacing:3px;
+  color:var(--text);margin-bottom:8px;
+  animation:fadeUp .8s ease .08s both;
+}
+.hero-h1 .line-gold{
+  background:linear-gradient(135deg,var(--gold-l) 0%,var(--gold) 55%,#e0b84a 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
 
-  /* ── SVG ICON HELPER ── */
-  .icon { display: inline-flex; align-items: center; justify-content: center; }
-  .icon svg { display: block; }
+/* Cycling subtitle words */
+.hero-cycle-wrap{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  font-family:var(--ff-display);
+  font-size:clamp(40px,7vw,90px);
+  line-height:1;letter-spacing:2px;color:var(--muted);
+  margin-bottom:32px;overflow:hidden;
+  animation:fadeUp .8s ease .16s both;
+}
+.cycle-static{color:var(--text);opacity:.35;}
+.cycle-words-wrap{
+  overflow:hidden;
+  height:1.08em;
+  display:flex;
+  align-items:flex-start;
+}
+.cycle-words{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  transition:transform 0.6s ease-in-out;
+  transform:translateY(0);
+}
+.cycle-words span{
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:flex;
+  align-items:center;
+  height:1.08em;
+  line-height:1;
+  white-space:nowrap;
+}
+/* cycleWords animation removed — now handled by JS */
 
-  /* Icon boxes */
-  .icon-box {
-    width: 52px; height: 52px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--border); flex-shrink: 0;
-  }
-  .icon-box-gold { background: rgba(201,168,76,0.1); }
-  .icon-box-blue { background: rgba(74,142,240,0.1); }
+.hero-sub{
+  font-size:clamp(14px,1.6vw,18px);color:var(--muted);
+  max-width:600px;margin:0 auto 48px;line-height:1.85;
+  animation:fadeUp .8s ease .24s both;
+}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:80px;animation:fadeUp .8s ease .32s both;}
 
-  /* ── ABOUT ── */
-  .about { background: var(--charcoal); }
-  .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .about-quote {
-    margin-top: 40px; padding: 28px 32px;
-    border-left: 3px solid var(--gold);
-    background: var(--glass-gold);
-    border-radius: 0 12px 12px 0;
-    font-size: 18px; font-weight: 600; font-style: italic; line-height: 1.5;
-    color: var(--gold-light);
-  }
-  .about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .mini-card {
-    padding: 28px 24px; border-radius: 16px;
-    background: var(--glass); border: 1px solid var(--border);
-    backdrop-filter: blur(20px); transition: all 0.3s; cursor: default;
-  }
-  .mini-card:hover { border-color: var(--gold); background: var(--glass-gold); transform: translateY(-4px); }
-  .mini-card:first-child { grid-column: span 2; }
-  .mini-card-icon { margin-bottom: 16px; }
-  .mini-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
-  .mini-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+/* Stats bar */
+.hero-stats{
+  display:flex;justify-content:center;
+  border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(22px);
+  border-radius:14px;overflow:hidden;max-width:720px;margin:0 auto;
+  animation:fadeUp .8s ease .4s both;
+}
+.stat-item{flex:1;padding:24px 20px;text-align:center;border-right:1px solid var(--border);}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-family:var(--ff-display);font-size:clamp(26px,3.5vw,38px);letter-spacing:1px;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1;
+}
+.stat-lbl{font-size:11px;color:var(--muted);letter-spacing:.5px;margin-top:6px;text-transform:uppercase;}
 
-  /* ── VISION MISSION ── */
-  .vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 64px; }
-  .vm-card {
-    padding: 48px 40px; border-radius: 20px;
-    background: var(--glass); border: 1px solid var(--border);
-    backdrop-filter: blur(20px); position: relative; overflow: hidden;
-    transition: all 0.4s;
-  }
-  .vm-card::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, var(--gold-dim), transparent);
-    opacity: 0; transition: opacity 0.4s;
-  }
-  .vm-card:hover::before { opacity: 1; }
-  .vm-card:hover { border-color: var(--gold); transform: translateY(-6px); }
-  .vm-icon-wrap {
-    width: 56px; height: 56px; border-radius: 14px;
-    background: var(--gold-dim2); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 28px;
-  }
-  .vm-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
-  .vm-card p { color: var(--text-muted); line-height: 1.85; font-size: 15px; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px);}to{opacity:1;transform:none;}}
 
-  /* ── SERVICES ── */
-  .services { background: var(--charcoal); }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
-  .service-card {
-    padding: 40px 32px; border-radius: 20px;
-    background: var(--glass); border: 1px solid var(--border);
-    backdrop-filter: blur(16px); position: relative; overflow: hidden;
-    transition: all 0.4s; cursor: default;
-  }
-  .service-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--gold), var(--blue));
-    transform: scaleX(0); transition: transform 0.4s; transform-origin: left;
-  }
-  .service-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-8px); background: var(--glass-gold); }
-  .service-card:hover::after { transform: scaleX(1); }
-  .service-card h3 { font-size: 18px; font-weight: 800; margin: 24px 0 12px; letter-spacing: -0.3px; }
-  .service-card p { color: var(--text-muted); font-size: 14px; line-height: 1.75; }
+/* ════════════════════════════════════════════
+   MARQUEE (client logos / text)
+════════════════════════════════════════════ */
+.marquee-section{padding:40px 0;overflow:hidden;background:var(--charcoal);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);}
+.marquee-track{display:flex;gap:0;white-space:nowrap;}
+.marquee-inner{
+  display:flex;gap:0;flex-shrink:0;
+  animation:marquee 28s linear infinite;
+}
+.marquee-inner2{animation-direction:reverse;animation-duration:22s;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-100%);}}
+.marquee-item{
+  font-family:var(--ff-display);font-size:clamp(18px,2.5vw,28px);letter-spacing:3px;
+  color:var(--dimmer);padding:0 40px;display:flex;align-items:center;gap:24px;
+  transition:color .3s;
+}
+.marquee-item:hover{color:var(--gold);}
+.marquee-dot{color:var(--gold);font-size:10px;opacity:.5;}
 
-  /* ── ACHIEVEMENTS ── */
-  .achievements-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
-  .ach-card {
-    padding: 48px 36px; text-align: center; border-radius: 20px;
-    background: var(--glass); border: 1px solid var(--border);
-    backdrop-filter: blur(20px); transition: all 0.4s; cursor: default;
-    position: relative; overflow: hidden;
-  }
-  .ach-card::before {
-    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 60%; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-  .ach-card:hover { border-color: var(--gold); transform: translateY(-6px); background: var(--glass-gold); }
-  .ach-icon-wrap {
-    width: 48px; height: 48px; border-radius: 12px;
-    background: var(--gold-dim2); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px;
-  }
-  .ach-num {
-    font-size: clamp(40px, 5vw, 62px); font-weight: 900; letter-spacing: -3px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: block; line-height: 1;
-  }
-  .ach-label { color: var(--text-muted); font-size: 13px; margin-top: 10px; letter-spacing: 0.5px; font-weight: 500; }
+/* ════════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════════ */
+.about{background:var(--off-black);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.about-left .big-text{
+  font-family:var(--ff-display);
+  font-size:clamp(60px,8vw,110px);
+  line-height:.9;letter-spacing:2px;
+  color:var(--text);margin-bottom:40px;
+}
+.about-left .big-text em{
+  font-style:italic;font-family:var(--ff-serif);font-weight:700;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.about-quote{
+  margin-top:36px;padding:26px 30px;
+  border-left:3px solid var(--gold);
+  background:var(--glass-g);border-radius:0 12px 12px 0;
+  font-size:17px;font-weight:600;font-style:italic;line-height:1.55;color:var(--gold-l);
+}
+.about-right p{color:var(--muted);line-height:1.9;font-size:16px;margin-bottom:22px;}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
+.acard{
+  padding:24px;border-radius:14px;
+  background:var(--glass);border:1px solid var(--border2);
+  transition:all .3s;
+}
+.acard:hover{border-color:var(--border);background:var(--glass-g);transform:translateY(-3px);}
+.acard-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-d);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.acard h4{font-size:13px;font-weight:700;margin-bottom:6px;}
+.acard p{font-size:12px;color:var(--muted);line-height:1.6;}
 
-  /* ── WHY US ── */
-  .why { background: var(--charcoal); }
-  .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .why-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .feat {
-    display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px;
-    border-radius: 14px; background: var(--glass); border: 1px solid var(--border);
-    transition: all 0.3s;
-  }
-  .feat:hover { border-color: var(--gold); background: var(--glass-gold); }
-  .feat-check {
-    width: 30px; height: 30px; border-radius: 8px;
-    background: var(--gold-dim); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 1px;
-  }
-  .feat-text { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; padding-top: 6px; }
+/* ════════════════════════════════════════════
+   SERVICES — BrandNoun numbered list style
+════════════════════════════════════════════ */
+.services{background:var(--black);}
+.services-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px;flex-wrap:wrap;gap:24px;}
+.services-header .big-h{
+  font-family:var(--ff-display);font-size:clamp(52px,8vw,100px);letter-spacing:2px;line-height:.92;
+}
+.services-header .big-h .accent-cycle{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.svc-list{border-top:1px solid var(--border2);}
+.svc-row{
+  display:flex;align-items:flex-start;gap:40px;
+  padding:32px 0;border-bottom:1px solid var(--border2);
+  transition:all .3s;cursor:default;position:relative;overflow:hidden;
+}
+.svc-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:linear-gradient(90deg,var(--gold-xs),transparent);
+  transition:width .4s ease;
+}
+.svc-row:hover::before{width:100%;}
+.svc-row:hover .svc-title{color:var(--gold-l);}
+.svc-num{font-family:var(--ff-display);font-size:13px;letter-spacing:2px;color:var(--dimmer);min-width:40px;padding-top:4px;}
+.svc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border2);background:var(--glass);flex-shrink:0;}
+.svc-body{flex:1;}
+.svc-title{font-family:var(--ff-display);font-size:clamp(26px,3.5vw,42px);letter-spacing:1px;margin-bottom:8px;transition:color .3s;}
+.svc-desc{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;}
+.svc-arrow{margin-left:auto;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;transition:all .3s;}
+.svc-row:hover .svc-arrow{border-color:var(--gold);background:var(--gold-d);}
 
-  /* ── FOUNDER ── */
-  .founder-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .founder-portrait {
-    position: relative; border-radius: 24px; overflow: hidden;
-    aspect-ratio: 3/4;
-    background: linear-gradient(160deg, #16161f 0%, #0d0d12 100%);
-    border: 1px solid var(--border);
-  }
-  .portrait-placeholder {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 12px;
-  }
-  .portrait-initials {
-    font-size: 80px; font-weight: 900; letter-spacing: -4px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .portrait-title { color: var(--text-muted); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
-  .portrait-glow {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
-    background: linear-gradient(to top, rgba(201,168,76,0.08), transparent);
-    pointer-events: none;
-  }
-  .founder-badge {
-    position: absolute; bottom: 24px; left: 24px; right: 24px;
-    padding: 16px 20px; border-radius: 12px;
-    background: rgba(5,5,7,0.88); backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-  }
-  .founder-badge h4 { font-size: 16px; font-weight: 800; margin-bottom: 3px; }
-  .founder-badge p { font-size: 12px; color: var(--gold); letter-spacing: 0.5px; }
-  .founder-story h2 { font-size: clamp(26px, 3.5vw, 44px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 28px; }
-  .founder-story p { color: var(--text-muted); line-height: 1.9; font-size: 15px; margin-bottom: 18px; }
-  .founder-quote {
-    margin-top: 36px; padding: 28px 32px;
-    border-radius: 16px; background: var(--glass-gold);
-    border: 1px solid var(--border); position: relative;
-  }
-  .founder-quote::before {
-    content: '\201C'; position: absolute; top: -8px; left: 20px;
-    font-size: 80px; line-height: 1; color: var(--gold); opacity: 0.25; font-family: Georgia, serif;
-  }
-  .founder-quote p { font-size: 16px; font-weight: 600; color: var(--gold-light); font-style: italic; line-height: 1.75; }
+/* ════════════════════════════════════════════
+   ACHIEVEMENTS — big counters
+════════════════════════════════════════════ */
+.ach{background:var(--charcoal);}
+.ach-header{text-align:center;margin-bottom:80px;}
+.ach-header h2{font-family:var(--ff-display);font-size:clamp(48px,8vw,100px);letter-spacing:2px;line-height:.92;}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);border:1px solid var(--border2);border-radius:20px;overflow:hidden;}
+.ach-cell{
+  padding:52px 40px;background:var(--charcoal);
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  transition:background .3s;position:relative;
+}
+.ach-cell::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:50%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.ach-cell:hover{background:var(--surface);}
+.ach-icon{width:48px;height:48px;border-radius:12px;background:var(--gold-d);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.ach-num{font-family:var(--ff-display);font-size:clamp(48px,6vw,76px);letter-spacing:-1px;background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1;}
+.ach-lbl{font-size:13px;color:var(--muted);margin-top:10px;letter-spacing:.5px;font-weight:500;}
 
-  /* ── PRESENCE ── */
-  .presence { background: var(--charcoal); }
-  .countries-grid { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 52px; justify-content: center; }
-  .country-pill {
-    display: flex; align-items: center; gap: 10px; padding: 14px 26px;
-    border-radius: 100px; background: var(--glass); border: 1px solid var(--border);
-    backdrop-filter: blur(16px); transition: all 0.3s; cursor: default;
-  }
-  .country-pill:hover { border-color: var(--gold); background: var(--glass-gold); transform: translateY(-3px); }
-  .country-name { font-size: 14px; font-weight: 600; }
+/* ════════════════════════════════════════════
+   WHY US
+════════════════════════════════════════════ */
+.why{background:var(--black);}
+.why-inner{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.why-left h2{font-family:var(--ff-display);font-size:clamp(52px,7vw,90px);letter-spacing:2px;line-height:.92;margin-bottom:32px;}
+.why-left p{color:var(--muted);font-size:16px;line-height:1.85;margin-bottom:36px;}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.feat-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:18px;border-radius:12px;background:var(--glass);border:1px solid var(--border2);
+  transition:all .3s;
+}
+.feat-item:hover{border-color:var(--border);background:var(--glass-g);}
+.feat-check{width:28px;height:28px;border-radius:8px;background:var(--gold-d);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.feat-text{font-size:13px;font-weight:600;padding-top:5px;}
+.feat-span{grid-column:span 2;}
 
-  /* ── TESTIMONIALS ── */
-  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
-  .testi-card {
-    padding: 36px 32px; border-radius: 20px;
-    background: var(--glass); border: 1px solid var(--border);
-    backdrop-filter: blur(20px); transition: all 0.4s;
-  }
-  .testi-card:hover { border-color: var(--gold); background: var(--glass-gold); transform: translateY(-6px); }
-  .stars { display: flex; gap: 4px; margin-bottom: 20px; }
-  .testi-text { color: var(--text-muted); font-size: 14px; line-height: 1.85; margin-bottom: 28px; font-style: italic; }
-  .testi-author { display: flex; align-items: center; gap: 14px; }
-  .testi-avatar {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--blue));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; color: #000; flex-shrink: 0;
-  }
-  .testi-name { font-size: 14px; font-weight: 700; }
-  .testi-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+/* ════════════════════════════════════════════
+   FOUNDER
+════════════════════════════════════════════ */
+.founder{background:var(--charcoal);}
+.founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.founder-portrait{
+  position:relative;border-radius:24px;overflow:hidden;aspect-ratio:3/4;
+  background:linear-gradient(160deg,#181820,#0d0d12);border:1px solid var(--border);
+}
+.portrait-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+.portrait-monogram{
+  font-family:var(--ff-display);font-size:100px;letter-spacing:-4px;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;
+}
+.portrait-tag{color:var(--muted);font-size:11px;letter-spacing:3px;text-transform:uppercase;}
+.portrait-glow{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(201,168,76,.08),transparent);pointer-events:none;}
+.portrait-badge{
+  position:absolute;bottom:20px;left:20px;right:20px;
+  padding:14px 18px;border-radius:12px;
+  background:rgba(5,5,7,.88);backdrop-filter:blur(20px);border:1px solid var(--border);
+}
+.portrait-badge h4{font-size:15px;font-weight:800;margin-bottom:3px;}
+.portrait-badge p{font-size:11px;color:var(--gold);letter-spacing:.5px;}
 
-  /* ── FINAL CTA ── */
-  .final-cta { background: var(--charcoal); position: relative; overflow: hidden; }
-  .cta-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 70% 80% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(74,142,240,0.05) 0%, transparent 60%);
-  }
-  .cta-content {
-    position: relative; z-index: 2; text-align: center;
-    max-width: 700px; margin: 0 auto; padding: 120px 40px;
-  }
-  .cta-content h2 { font-size: clamp(30px, 5vw, 64px); font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.0; }
-  .cta-content p { color: var(--text-muted); font-size: 17px; line-height: 1.75; margin-bottom: 52px; }
-  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.founder-story .eyebrow{margin-bottom:12px;}
+.founder-story h2{font-family:var(--ff-display);font-size:clamp(44px,6vw,80px);letter-spacing:2px;line-height:.9;margin-bottom:32px;}
+.founder-story p{color:var(--muted);font-size:15px;line-height:1.9;margin-bottom:18px;}
+.founder-quote{
+  margin-top:32px;padding:28px 32px;border-radius:16px;
+  background:var(--glass-g);border:1px solid var(--border);position:relative;
+}
+.founder-quote::before{content:'\201C';position:absolute;top:-6px;left:18px;font-size:72px;line-height:1;color:var(--gold);opacity:.22;font-family:Georgia,serif;}
+.founder-quote p{font-size:16px;font-weight:600;color:var(--gold-l);font-style:italic;line-height:1.75;}
 
-  /* ── FOOTER ── */
-  footer { background: var(--black); border-top: 1px solid var(--border); padding: 64px 0 40px; }
-  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; }
-  .footer-logo {
-    font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: block; margin-bottom: 14px;
-  }
-  .footer-brand p { color: var(--text-muted); font-size: 14px; line-height: 1.75; max-width: 280px; margin-bottom: 28px; }
-  .social-links { display: flex; gap: 10px; }
-  .social-btn {
-    width: 38px; height: 38px; border-radius: 10px;
-    background: var(--glass); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none; transition: all 0.3s;
-  }
-  .social-btn:hover { border-color: var(--gold); background: var(--glass-gold); transform: translateY(-2px); }
-  .footer-col h5 { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
-  .footer-col a { display: block; color: var(--text-muted); text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--text); }
-  .footer-bottom {
-    margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-    color: var(--text-dim); font-size: 13px;
-  }
-  .footer-bottom .gold { color: var(--gold); }
+/* ════════════════════════════════════════════
+   PROCESS — accordion style
+════════════════════════════════════════════ */
+.process{background:var(--black);}
+.process-header{text-align:center;margin-bottom:72px;}
+.process-header h2{font-family:var(--ff-display);font-size:clamp(48px,7vw,95px);letter-spacing:2px;line-height:.92;}
+.process-list{border-top:1px solid var(--border2);}
+.process-item{
+  padding:36px 0;border-bottom:1px solid var(--border2);
+  display:grid;grid-template-columns:80px 1fr auto;gap:32px;align-items:start;
+  cursor:pointer;transition:all .3s;
+}
+.process-item:hover .p-title{color:var(--gold-l);}
+.p-num{font-family:var(--ff-display);font-size:clamp(36px,4vw,52px);color:var(--dimmer);letter-spacing:1px;line-height:1;}
+.p-title{font-family:var(--ff-display);font-size:clamp(22px,3vw,36px);letter-spacing:1px;margin-bottom:10px;transition:color .3s;}
+.p-desc{font-size:14px;color:var(--muted);line-height:1.75;max-width:560px;}
+.p-icon-wrap{width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-top:4px;transition:all .3s;}
+.process-item:hover .p-icon-wrap{border-color:var(--gold);background:var(--gold-d);}
 
-  /* ── SCROLL REVEAL ── */
-  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.75s ease, transform 0.75s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-d1 { transition-delay: 0.1s; }
-  .reveal-d2 { transition-delay: 0.2s; }
-  .reveal-d3 { transition-delay: 0.3s; }
+/* ════════════════════════════════════════════
+   GLOBAL PRESENCE
+════════════════════════════════════════════ */
+.presence{background:var(--charcoal);}
+.presence-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.presence-left h2{font-family:var(--ff-display);font-size:clamp(48px,7vw,90px);letter-spacing:2px;line-height:.9;margin-bottom:28px;}
+.presence-left p{color:var(--muted);font-size:16px;line-height:1.85;margin-bottom:36px;}
+.country-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border2);border-radius:16px;overflow:hidden;}
+.country-row{
+  display:flex;align-items:center;gap:18px;padding:18px 24px;
+  border-bottom:1px solid var(--border2);background:var(--glass);
+  transition:all .3s;
+}
+.country-row:last-child{border-bottom:none;}
+.country-row:hover{background:var(--glass-g);padding-left:32px;}
+.country-pin{color:var(--gold);}
+.country-name{font-size:15px;font-weight:600;}
+.country-tag{margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--black); }
-  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); border-radius: 2px; }
+/* ════════════════════════════════════════════
+   TESTIMONIALS — marquee style
+════════════════════════════════════════════ */
+.testi{background:var(--black);}
+.testi-header{text-align:center;margin-bottom:64px;}
+.testi-header h2{font-family:var(--ff-display);font-size:clamp(48px,7vw,95px);letter-spacing:2px;line-height:.92;}
+.testi-marquee-wrap{overflow:hidden;padding:8px 0;}
+.testi-track{display:flex;gap:24px;white-space:nowrap;}
+.testi-inner{display:flex;gap:24px;flex-shrink:0;animation:marquee 34s linear infinite;}
+.testi-inner.rev{animation-direction:reverse;animation-duration:28s;}
+.tcard{
+  display:inline-flex;flex-direction:column;
+  width:400px;white-space:normal;flex-shrink:0;
+  padding:32px;border-radius:18px;
+  background:var(--glass);border:1px solid var(--border2);
+  transition:all .4s;
+}
+.tcard:hover{border-color:var(--border);background:var(--glass-g);}
+.tcard-stars{display:flex;gap:4px;margin-bottom:18px;}
+.tcard-text{color:var(--muted);font-size:14px;line-height:1.85;margin-bottom:24px;font-style:italic;flex:1;}
+.tcard-author{display:flex;align-items:center;gap:14px;}
+.tcard-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;flex-shrink:0;}
+.tcard-name{font-size:14px;font-weight:700;}
+.tcard-role{font-size:12px;color:var(--muted);margin-top:2px;}
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1024px) {
-    .container { padding: 0 40px; }
-    nav { padding: 18px 40px; }
-  }
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    .container { padding: 0 24px; }
-    .section-pad { padding: 80px 0; }
-    .about-inner, .vm-grid, .why-inner, .founder-inner { grid-template-columns: 1fr; gap: 48px; }
-    .services-grid, .achievements-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
-    .about-visual { grid-template-columns: 1fr 1fr; }
-    .about-visual .mini-card:first-child { grid-column: span 2; }
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
-    .why-features { grid-template-columns: 1fr; }
-    .hero-stats { flex-wrap: wrap; }
-    .stat-item { min-width: 130px; border-right: none; border-bottom: 1px solid var(--border); }
-    .stat-item:last-child { border-bottom: none; }
-  }
-  @media (max-width: 600px) {
-    .services-grid, .achievements-grid, .testimonials-grid { grid-template-columns: 1fr; }
-    .cta-content { padding: 80px 20px; }
-    .footer-inner { grid-template-columns: 1fr; }
-    .countries-grid { gap: 10px; }
-  }
-  /* ── BOOKING MODAL ── */
-  .modal-backdrop { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: linear-gradient(rgba(2,2,4,0.6), rgba(2,2,4,0.7)); backdrop-filter: blur(6px) saturate(120%); z-index: 9999; padding: 20px; }
-  .modal-backdrop.active { display: flex; }
-  .modal { width: 100%; max-width: 520px; background: linear-gradient(180deg, rgba(12,12,14,0.96) 0%, rgba(18,18,22,0.94) 100%); border: 1px solid rgba(201,168,76,0.08); border-radius: 14px; padding: 22px; color: var(--text); box-shadow: 0 18px 60px rgba(0,0,0,0.6); position: relative; }
-  .modal h3 { margin-bottom: 6px; font-size: 20px; font-weight: 800; color: var(--text); }
-  .modal .modal-desc { color: var(--text-muted); margin-bottom: 18px; font-size: 14px; }
-  .modal label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
-  .modal input[type="email"], .modal input[type="tel"], .modal textarea { width: 100%; padding: 12px 14px; margin-bottom: 14px; border-radius: 10px; background: rgba(22,22,28,0.85); border: 1px solid rgba(255,255,255,0.04); color: var(--text); font-size: 14px; outline: none; }
-  .modal textarea { resize: vertical; min-height: 96px; }
-  .modal .modal-actions { display:flex; justify-content:flex-end; gap:12px; margin-top:6px; }
-  .modal .modal-close { position: absolute; right: 12px; top: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03); color: var(--text); font-size: 18px; padding:6px 8px; border-radius:8px; cursor: pointer; }
-  .modal .modal-close:hover { background: rgba(255,255,255,0.04); }
-  .modal input::placeholder, .modal textarea::placeholder { color: rgba(255,255,255,0.45); }
-  @media (max-width:600px) { .modal { padding:16px; border-radius:12px; } }
+/* ════════════════════════════════════════════
+   FINAL CTA
+════════════════════════════════════════════ */
+.cta-section{background:var(--charcoal);position:relative;overflow:hidden;}
+.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(201,168,76,.07) 0%,transparent 70%);}
+.cta-content{position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto;padding:140px 40px;}
+.cta-content h2{font-family:var(--ff-display);font-size:clamp(52px,9vw,120px);letter-spacing:3px;line-height:.88;margin-bottom:24px;}
+.cta-content p{color:var(--muted);font-size:18px;line-height:1.75;margin-bottom:52px;}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* ════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════ */
+footer{background:var(--off-black);border-top:1px solid var(--border);}
+.footer-top{padding:72px 0 48px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;}
+.footer-logo-text{font-family:var(--ff-display);font-size:26px;letter-spacing:3px;background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;display:block;}
+.footer-tagline{color:var(--muted);font-size:14px;line-height:1.7;max-width:280px;margin-bottom:32px;}
+.social-row{display:flex;gap:10px;}
+.soc-btn{width:38px;height:38px;border-radius:10px;background:var(--glass);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;transition:all .3s;color:var(--muted);}
+.soc-btn:hover{border-color:var(--gold);background:var(--gold-d);color:var(--gold);}
+.footer-col h5{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
+.footer-col a{display:block;color:var(--muted);font-size:14px;margin-bottom:12px;transition:color .2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{padding:24px 0;border-top:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;color:var(--dimmer);font-size:13px;}
+.footer-bottom .hi{color:var(--gold);}
+
+/* ════════════════════════════════════════════
+   SVG ICONS (hidden defs)
+════════════════════════════════════════════ */
+/* -- inline in body -- */
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════ */
+@media(max-width:1024px){
+  .container{padding:0 32px;}
+  nav{padding:18px 32px;}
+  .about-grid,.why-inner,.founder-grid,.presence-inner,.footer-grid{grid-template-columns:1fr;gap:52px;}
+  .ach-grid{grid-template-columns:1fr 1fr;}
+  .services-header{flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .container{padding:0 20px;}
+  .section-pad{padding:90px 0;}
+  .about-cards{grid-template-columns:1fr;}
+  .ach-grid{grid-template-columns:1fr;}
+  .feat-grid{grid-template-columns:1fr;}
+  .feat-span{grid-column:span 1;}
+  .process-item{grid-template-columns:52px 1fr;}
+  .p-icon-wrap{display:none;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px;}
+  .hero-stats{flex-wrap:wrap;}
+  .stat-item{min-width:130px;border-right:none;border-bottom:1px solid var(--border);}
+  .stat-item:last-child{border-bottom:none;}
+  .hero-cycle-wrap{gap:10px;}
+}
+@media(max-width:500px){
+  .footer-grid{grid-template-columns:1fr;}
+  .cta-content{padding:90px 20px;}
+}
 </style>
 </head>
 <body>
 
-<!-- SVG DEFS (all icons) -->
+<!-- CURSOR GLOW -->
+<div id="cursor-glow"></div>
+
+<!-- ══ SVG ICON DEFS ══ -->
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="ic-arrow-right" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 10h12M11 5l5 5-5 5"/>
-  </symbol>
-  <symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-  </symbol>
-  <symbol id="ic-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-  </symbol>
-  <symbol id="ic-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-  </symbol>
-  <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-  </symbol>
-  <symbol id="ic-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-  </symbol>
-  <symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
-  </symbol>
-  <symbol id="ic-telescope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="2"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 22a10 10 0 0 1-10-10"/><path d="M2 12h2m16 0h2M12 2v2m0 16v2"/>
-  </symbol>
-  <symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-  </symbol>
-  <symbol id="ic-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
-  </symbol>
-  <symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
-  </symbol>
-  <symbol id="ic-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
-  </symbol>
-  <symbol id="ic-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="4 10 8 14 16 6"/>
-  </symbol>
-  <symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-  </symbol>
-  <symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-  </symbol>
-  <symbol id="ic-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-  </symbol>
-  <symbol id="ic-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
-  </symbol>
-  <symbol id="ic-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
-  </symbol>
-  <symbol id="ic-trending" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
-  </symbol>
-  <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-  </symbol>
-  <!-- Social icons -->
-  <symbol id="ic-linkedin" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
-  </symbol>
-  <symbol id="ic-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-  </symbol>
-  <symbol id="ic-facebook" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-  </symbol>
-  <symbol id="ic-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
-  </symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 10 8 14 16 6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-trending" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-discovery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-concept" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="9.5" y1="17" x2="14.5" y2="17"/></symbol>
+  <symbol id="i-design" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
+  <symbol id="i-refine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+  <symbol id="i-deliver" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+  <!-- Social -->
+  <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></symbol>
 </svg>
 
-<!-- ═══════════════════ NAV ═══════════════════ -->
+<!-- ══════════════════════════════════════
+     NAV
+══════════════════════════════════════ -->
 <nav id="mainNav">
-  <a href="#" class="nav-logo">Fill That Gap</a>
+  <a href="#" class="nav-logo">FILL THAT GAP</a>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#services">Services</a>
@@ -615,91 +572,142 @@
     <a href="#founder">Founder</a>
     <a href="#contact">Contact</a>
   </div>
-  <a href="#contact" class="nav-cta open-booking">Book Strategy Call</a>
+  <a href="#contact" class="nav-cta">Book Strategy Call</a>
 </nav>
 
-<!-- ═══════════════════ HERO ═══════════════════ -->
+<!-- ══════════════════════════════════════
+     HERO — with video background
+══════════════════════════════════════ -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
+  <!-- Video BG -->
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline preload="auto" poster="">
+      <source src="Sequence_02_2.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-grid"></div>
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
   <div class="orb orb3"></div>
-  <div class="grid-lines"></div>
+
   <div class="hero-content">
     <div class="hero-badge">
       <span class="badge-dot"></span>
       Growth Agency &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; 5 Countries
     </div>
-    <h1>Bridging Businesses To<br><span class="gold-text">Extraordinary Growth</span></h1>
-    <p class="hero-sub">Helping brands scale through Performance Marketing, Creative Production, AI Solutions, Digital Transformation, and Growth Systems that deliver measurable results.</p>
+
+    <div class="hero-h1">BRIDGING BUSINESSES TO</div>
+
+    <div class="hero-cycle-wrap">
+      <span class="cycle-static">EXTRAORDINARY</span>
+      <div class="cycle-words-wrap">
+        <div class="cycle-words">
+          <span>GROWTH</span>
+          <span>RESULTS</span>
+          <span>SUCCESS</span>
+          <span>SCALE</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero-sub">Performance Marketing · Creative Production · AI Solutions · Digital Transformation · Growth Systems that deliver measurable results.</p>
+
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary open-booking">
+      <a href="#contact" class="btn btn-gold">
         Book Strategy Call
-        <svg width="16" height="16"><use href="#ic-arrow-right"/></svg>
+        <svg width="16" height="16" style="color:#000"><use href="#i-arrow-r"/></svg>
       </a>
-      <a href="#services" class="btn-secondary">
+      <a href="#services" class="btn btn-ghost">
         View Our Work
-        <svg width="16" height="16"><use href="#ic-arrow-right"/></svg>
+        <svg width="16" height="16"><use href="#i-arrow-r"/></svg>
       </a>
     </div>
+
     <div class="hero-stats">
       <div class="stat-item">
         <span class="stat-num" data-target="300" data-suffix="+">300+</span>
-        <div class="stat-label">Brands Served</div>
+        <div class="stat-lbl">Brands Served</div>
       </div>
       <div class="stat-item">
         <span class="stat-num">2019</span>
-        <div class="stat-label">Founded</div>
+        <div class="stat-lbl">Founded</div>
       </div>
       <div class="stat-item">
         <span class="stat-num" data-target="5" data-suffix="+">5+</span>
-        <div class="stat-label">Countries</div>
+        <div class="stat-lbl">Countries</div>
       </div>
       <div class="stat-item">
-        <span class="stat-num">₹Cr+</span>
-        <div class="stat-label">Revenue Generated</div>
+        <span class="stat-num">₹1Cr+</span>
+        <div class="stat-lbl">Revenue Generated</div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      <div class="marquee-item">PERFORMANCE MARKETING<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">CREATIVE PRODUCTION<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">AI SOLUTIONS<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">SOCIAL MEDIA<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">WEB DEVELOPMENT<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">BRANDING & DESIGN<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">GROWTH SYSTEMS<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">LEAD GENERATION<span class="marquee-dot">◆</span></div>
+    </div>
+    <div class="marquee-inner" aria-hidden="true">
+      <div class="marquee-item">PERFORMANCE MARKETING<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">CREATIVE PRODUCTION<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">AI SOLUTIONS<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">SOCIAL MEDIA<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">WEB DEVELOPMENT<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">BRANDING & DESIGN<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">GROWTH SYSTEMS<span class="marquee-dot">◆</span></div>
+      <div class="marquee-item">LEAD GENERATION<span class="marquee-dot">◆</span></div>
+    </div>
+  </div>
+</div>
+
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
 <section class="about section-pad" id="about">
   <div class="container">
-    <div class="about-inner">
-      <div class="reveal">
-        <span class="eyebrow">About Us</span>
-        <h2 class="section-title">We Don't Chase Metrics.<br>We <span class="accent">Build Growth.</span></h2>
-        <p class="section-desc">Founded in 2019, Fill That Gap was built with a simple yet powerful vision — to help businesses unlock their true growth potential through digital innovation, creativity, and performance-driven marketing.</p>
-        <br>
-        <p class="section-desc">What began as a small initiative helping local businesses establish an online presence has evolved into a full-service growth agency trusted by over 300 brands across India, UAE, Saudi Arabia, USA, and Zimbabwe.</p>
-        <div class="about-quote">
-          "We believe in measurable business growth, not vanity metrics."
-        </div>
+    <div class="about-grid">
+      <div class="r">
+        <div class="big-text">WE DON'T CHASE <em>METRICS.</em> WE BUILD <em>GROWTH.</em></div>
+        <div class="about-quote">"We believe in measurable business growth, not vanity metrics."</div>
       </div>
-      <div class="about-visual reveal reveal-d2">
-        <div class="mini-card">
-          <div class="mini-card-icon icon-box icon-box-gold">
-            <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-rocket"/></svg>
+      <div class="r r1">
+        <span class="eyebrow">About Fill That Gap</span>
+        <p>Founded in 2019, Fill That Gap was built with a simple yet powerful vision — to help businesses unlock their true growth potential through digital innovation, creativity, and performance-driven marketing.</p>
+        <p>What began as a small initiative helping local businesses in Anantapur has evolved into a full-service growth agency trusted by over 300 brands across India and international markets.</p>
+        <p>Today, Fill That Gap combines strategic thinking, creative storytelling, performance advertising, AI-powered solutions, and high-converting content to help businesses scale faster than ever before.</p>
+        <div class="about-cards">
+          <div class="acard">
+            <div class="acard-icon"><svg width="20" height="20" style="color:var(--gold)"><use href="#i-rocket"/></svg></div>
+            <h4>End-to-End Partner</h4>
+            <p>From strategy to creative production to AI automation — one agency, full-stack growth.</p>
           </div>
-          <h4>End-to-End Growth Partner</h4>
-          <p>From strategy and creative production to performance marketing and AI automation — one agency, full-stack growth.</p>
-        </div>
-        <div class="mini-card">
-          <div class="mini-card-icon icon-box icon-box-gold">
-            <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-target"/></svg>
+          <div class="acard">
+            <div class="acard-icon"><svg width="20" height="20" style="color:var(--gold)"><use href="#i-target"/></svg></div>
+            <h4>Performance-First</h4>
+            <p>Every campaign is built to generate measurable ROI, not impressions.</p>
           </div>
-          <h4>Performance-First</h4>
-          <p>Every campaign is built to generate measurable ROI, not vanity impressions.</p>
-        </div>
-        <div class="mini-card">
-          <div class="mini-card-icon icon-box icon-box-blue">
-            <svg width="22" height="22" style="color:var(--blue)"><use href="#ic-cpu"/></svg>
+          <div class="acard">
+            <div class="acard-icon"><svg width="20" height="20" style="color:var(--gold)"><use href="#i-cpu"/></svg></div>
+            <h4>AI-Powered Systems</h4>
+            <p>Latest AI and automation tools to accelerate your results.</p>
           </div>
-          <h4>AI-Powered Systems</h4>
-          <p>Leveraging the latest in artificial intelligence and automation to accelerate results.</p>
+          <div class="acard">
+            <div class="acard-icon"><svg width="20" height="20" style="color:var(--gold)"><use href="#i-zap"/></svg></div>
+            <h4>Rapid Execution</h4>
+            <p>Ideas into live campaigns — faster than you think possible.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -708,84 +716,76 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ VISION & MISSION ═══════════════════ -->
-<section class="section-pad" id="vision" style="background:var(--black)">
-  <div class="container">
-    <div style="text-align:center" class="reveal">
-      <span class="eyebrow">Our Direction</span>
-      <h2 class="section-title">Purpose-Driven.<br><span class="accent">Future-Focused.</span></h2>
-    </div>
-    <div class="vm-grid">
-      <div class="vm-card reveal reveal-d1">
-        <div class="vm-icon-wrap">
-          <svg width="26" height="26" style="color:var(--gold)"><use href="#ic-telescope"/></svg>
-        </div>
-        <h3>Our Vision</h3>
-        <p>To become the world's most trusted growth partner by making digital transformation accessible, effective, and result-oriented for organizations of every size — from local startups to global enterprises.</p>
-      </div>
-      <div class="vm-card reveal reveal-d2">
-        <div class="vm-icon-wrap">
-          <svg width="26" height="26" style="color:var(--gold)"><use href="#ic-zap"/></svg>
-        </div>
-        <h3>Our Mission</h3>
-        <p>To bridge the gap between businesses and digital success through innovative marketing solutions, powerful storytelling, strategic advertising, and AI-driven growth systems that create measurable impact.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ═══════════════════ SERVICES ═══════════════════ -->
+<!-- ══════════════════════════════════════
+     SERVICES
+══════════════════════════════════════ -->
 <section class="services section-pad" id="services">
   <div class="container">
-    <div class="reveal">
-      <span class="eyebrow">What We Do</span>
-      <h2 class="section-title">Growth Solutions Built<br><span class="accent">For The Future</span></h2>
-      <p class="section-desc">End-to-end solutions including Meta Ads, Lead Generation, Content Creation, Websites, Branding, Automation, and AI Implementation.</p>
+    <div class="services-header r">
+      <div>
+        <span class="eyebrow">What We Do</span>
+        <div class="big-h">GROWTH SOLUTIONS<br>BUILT FOR THE<br><span class="accent-cycle">FUTURE.</span></div>
+      </div>
+      <a href="#contact" class="btn btn-ghost">
+        Start a Project
+        <svg width="16" height="16"><use href="#i-arrow-r"/></svg>
+      </a>
     </div>
-    <div class="services-grid">
-      <div class="service-card reveal reveal-d1">
-        <div class="icon-box icon-box-gold">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-trending"/></svg>
+
+    <div class="svc-list r r1">
+      <div class="svc-row">
+        <span class="svc-num">01</span>
+        <div class="svc-icon icon-box-gold"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-trending"/></svg></div>
+        <div class="svc-body">
+          <div class="svc-title">Performance Marketing</div>
+          <p class="svc-desc">Scale revenue with data-driven advertising campaigns across Meta, Google, and beyond. ROI-first, always.</p>
         </div>
-        <h3>Performance Marketing</h3>
-        <p>Scale revenue with data-driven advertising campaigns across Meta, Google, and beyond. ROI-first, always.</p>
+        <div class="svc-arrow"><svg width="16" height="16" style="color:var(--muted)"><use href="#i-arrow-r"/></svg></div>
       </div>
-      <div class="service-card reveal reveal-d2">
-        <div class="icon-box icon-box-blue">
-          <svg width="22" height="22" style="color:var(--blue)"><use href="#ic-camera"/></svg>
+      <div class="svc-row">
+        <span class="svc-num">02</span>
+        <div class="svc-icon icon-box-blue"><svg width="22" height="22" style="color:var(--blue)"><use href="#i-camera"/></svg></div>
+        <div class="svc-body">
+          <div class="svc-title">Creative Ad Production</div>
+          <p class="svc-desc">Cinematic commercials, ad shoots, and high-converting creative assets — all produced in-house.</p>
         </div>
-        <h3>Creative Ad Production</h3>
-        <p>Cinematic commercials, ad shoots, and high-converting creative assets — all produced in-house, no outsourcing.</p>
+        <div class="svc-arrow"><svg width="16" height="16" style="color:var(--muted)"><use href="#i-arrow-r"/></svg></div>
       </div>
-      <div class="service-card reveal reveal-d3">
-        <div class="icon-box icon-box-gold">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-globe"/></svg>
+      <div class="svc-row">
+        <span class="svc-num">03</span>
+        <div class="svc-icon icon-box-gold"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-globe"/></svg></div>
+        <div class="svc-body">
+          <div class="svc-title">Social Media Marketing</div>
+          <p class="svc-desc">Build influence, engagement, and authority across digital platforms with strategic, scroll-stopping content.</p>
         </div>
-        <h3>Social Media Marketing</h3>
-        <p>Build influence, engagement, and authority across digital platforms with strategic, scroll-stopping content.</p>
+        <div class="svc-arrow"><svg width="16" height="16" style="color:var(--muted)"><use href="#i-arrow-r"/></svg></div>
       </div>
-      <div class="service-card reveal reveal-d1">
-        <div class="icon-box icon-box-blue">
-          <svg width="22" height="22" style="color:var(--blue)"><use href="#ic-monitor"/></svg>
+      <div class="svc-row">
+        <span class="svc-num">04</span>
+        <div class="svc-icon icon-box-blue"><svg width="22" height="22" style="color:var(--blue)"><use href="#i-monitor"/></svg></div>
+        <div class="svc-body">
+          <div class="svc-title">Website Development</div>
+          <p class="svc-desc">Premium websites engineered for conversion and growth. Fast, beautiful, and built to perform at scale.</p>
         </div>
-        <h3>Website Development</h3>
-        <p>Premium websites engineered for conversion and growth. Fast, beautiful, and built to perform at scale.</p>
+        <div class="svc-arrow"><svg width="16" height="16" style="color:var(--muted)"><use href="#i-arrow-r"/></svg></div>
       </div>
-      <div class="service-card reveal reveal-d2">
-        <div class="icon-box icon-box-gold">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-pen"/></svg>
+      <div class="svc-row">
+        <span class="svc-num">05</span>
+        <div class="svc-icon icon-box-gold"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-pen"/></svg></div>
+        <div class="svc-body">
+          <div class="svc-title">Branding & Design</div>
+          <p class="svc-desc">Create memorable brands that stand out in competitive markets and command premium positioning.</p>
         </div>
-        <h3>Branding & Design</h3>
-        <p>Create memorable brands that stand out in competitive markets and command premium positioning.</p>
+        <div class="svc-arrow"><svg width="16" height="16" style="color:var(--muted)"><use href="#i-arrow-r"/></svg></div>
       </div>
-      <div class="service-card reveal reveal-d3">
-        <div class="icon-box icon-box-blue">
-          <svg width="22" height="22" style="color:var(--blue)"><use href="#ic-cpu"/></svg>
+      <div class="svc-row">
+        <span class="svc-num">06</span>
+        <div class="svc-icon icon-box-blue"><svg width="22" height="22" style="color:var(--blue)"><use href="#i-cpu"/></svg></div>
+        <div class="svc-body">
+          <div class="svc-title">AI Solutions & Automation</div>
+          <p class="svc-desc">Leverage artificial intelligence and automation to eliminate bottlenecks and accelerate business growth.</p>
         </div>
-        <h3>AI Solutions & Automation</h3>
-        <p>Leverage artificial intelligence and automation to eliminate bottlenecks and accelerate business growth.</p>
+        <div class="svc-arrow"><svg width="16" height="16" style="color:var(--muted)"><use href="#i-arrow-r"/></svg></div>
       </div>
     </div>
   </div>
@@ -793,55 +793,45 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ ACHIEVEMENTS ═══════════════════ -->
-<section class="section-pad" id="achievements" style="background:var(--black)">
+<!-- ══════════════════════════════════════
+     ACHIEVEMENTS
+══════════════════════════════════════ -->
+<section class="ach section-pad" id="achievements">
   <div class="container">
-    <div style="text-align:center" class="reveal">
+    <div class="ach-header r">
       <span class="eyebrow">Track Record</span>
-      <h2 class="section-title">Numbers That Define <span class="accent">Excellence</span></h2>
+      <h2>NUMBERS THAT DEFINE <span class="gold">EXCELLENCE.</span></h2>
     </div>
-    <div class="achievements-grid">
-      <div class="ach-card reveal reveal-d1">
-        <div class="ach-icon-wrap">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-users"/></svg>
-        </div>
+    <div class="ach-grid r r1">
+      <div class="ach-cell">
+        <div class="ach-icon"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-users"/></svg></div>
         <span class="ach-num" data-target="300" data-suffix="+">300+</span>
-        <div class="ach-label">Brands Served</div>
+        <div class="ach-lbl">Brands Served</div>
       </div>
-      <div class="ach-card reveal reveal-d2">
-        <div class="ach-icon-wrap">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-calendar"/></svg>
-        </div>
+      <div class="ach-cell">
+        <div class="ach-icon"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-calendar"/></svg></div>
         <span class="ach-num">2019</span>
-        <div class="ach-label">Year Founded</div>
+        <div class="ach-lbl">Year Founded</div>
       </div>
-      <div class="ach-card reveal reveal-d3">
-        <div class="ach-icon-wrap">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-map-pin"/></svg>
-        </div>
+      <div class="ach-cell">
+        <div class="ach-icon"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-pin"/></svg></div>
         <span class="ach-num" data-target="5" data-suffix="+">5+</span>
-        <div class="ach-label">Countries Served</div>
+        <div class="ach-lbl">Countries Served</div>
       </div>
-      <div class="ach-card reveal reveal-d1">
-        <div class="ach-icon-wrap">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-chart"/></svg>
-        </div>
+      <div class="ach-cell">
+        <div class="ach-icon"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-trending"/></svg></div>
         <span class="ach-num" data-target="1000" data-suffix="+">1000+</span>
-        <div class="ach-label">Campaigns Executed</div>
+        <div class="ach-lbl">Campaigns Executed</div>
       </div>
-      <div class="ach-card reveal reveal-d2">
-        <div class="ach-icon-wrap">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-trending"/></svg>
-        </div>
+      <div class="ach-cell">
+        <div class="ach-icon"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-zap"/></svg></div>
         <span class="ach-num">₹Cr+</span>
-        <div class="ach-label">Generated Through Advertising</div>
+        <div class="ach-lbl">Generated Through Advertising</div>
       </div>
-      <div class="ach-card reveal reveal-d3">
-        <div class="ach-icon-wrap">
-          <svg width="22" height="22" style="color:var(--gold)"><use href="#ic-camera"/></svg>
-        </div>
+      <div class="ach-cell">
+        <div class="ach-icon"><svg width="22" height="22" style="color:var(--gold)"><use href="#i-camera"/></svg></div>
         <span class="ach-num" data-target="100" data-suffix="%">100%</span>
-        <div class="ach-label">In-House Creative Production</div>
+        <div class="ach-lbl">In-House Creative Production</div>
       </div>
     </div>
   </div>
@@ -849,47 +839,48 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ WHY US ═══════════════════ -->
+<!-- ══════════════════════════════════════
+     WHY US
+══════════════════════════════════════ -->
 <section class="why section-pad" id="why">
   <div class="container">
     <div class="why-inner">
-      <div class="reveal">
+      <div class="r">
         <span class="eyebrow">Why Fill That Gap</span>
-        <h2 class="section-title">Why Industry Leaders<br><span class="accent">Choose Us</span></h2>
-        <p class="section-desc">We combine creativity, technology, performance marketing, and AI innovation to generate measurable business outcomes — not reports, not fluff. Real, compounding growth.</p>
-        <br><br>
-        <a href="#contact" class="btn-primary open-booking">
+        <h2 class="why-left" style="font-family:var(--ff-display);font-size:clamp(52px,7vw,90px);letter-spacing:2px;line-height:.92;margin-bottom:32px;">WHY INDUSTRY LEADERS <span class="gold">CHOOSE US.</span></h2>
+        <p style="color:var(--muted);font-size:16px;line-height:1.85;margin-bottom:36px;">We combine creativity, technology, performance marketing, and AI innovation to generate measurable business outcomes — not reports, not fluff. Real, compounding growth.</p>
+        <a href="#contact" class="btn btn-gold">
           Start Your Growth Journey
-          <svg width="16" height="16"><use href="#ic-arrow-right"/></svg>
+          <svg width="16" height="16" style="color:#000"><use href="#i-arrow-r"/></svg>
         </a>
       </div>
-      <div class="why-features reveal reveal-d2">
-        <div class="feat">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+      <div class="feat-grid r r2">
+        <div class="feat-item">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">Results Over Reports</span>
         </div>
-        <div class="feat">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+        <div class="feat-item">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">Strategic + Creative Approach</span>
         </div>
-        <div class="feat">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+        <div class="feat-item">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">In-House Creative Team</span>
         </div>
-        <div class="feat">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+        <div class="feat-item">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">Proven Industry Experience</span>
         </div>
-        <div class="feat">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+        <div class="feat-item">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">Global Perspective</span>
         </div>
-        <div class="feat">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+        <div class="feat-item">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">AI-Powered Innovation</span>
         </div>
-        <div class="feat" style="grid-column:span 2">
-          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-check"/></svg></span>
+        <div class="feat-item feat-span">
+          <span class="feat-check"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-check"/></svg></span>
           <span class="feat-text">Complete Growth Ecosystem — Strategy to Execution</span>
         </div>
       </div>
@@ -899,24 +890,26 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ FOUNDER ═══════════════════ -->
-<section class="section-pad" id="founder" style="background:var(--black)">
+<!-- ══════════════════════════════════════
+     FOUNDER
+══════════════════════════════════════ -->
+<section class="founder section-pad" id="founder">
   <div class="container">
-    <div class="founder-inner">
-      <div class="founder-portrait reveal">
-        <div class="portrait-placeholder">
-          <div class="portrait-initials">SB</div>
-          <div class="portrait-title">Founder &amp; CEO</div>
+    <div class="founder-grid">
+      <div class="founder-portrait r">
+        <div class="portrait-inner">
+          <div class="portrait-monogram">SB</div>
+          <div class="portrait-tag">Founder & CEO</div>
         </div>
         <div class="portrait-glow"></div>
-        <div class="founder-badge">
+        <div class="portrait-badge">
           <h4>Shahid Basha</h4>
-          <p>Founder &amp; CEO, Fill That Gap</p>
+          <p>Founder & CEO, Fill That Gap</p>
         </div>
       </div>
-      <div class="founder-story reveal reveal-d2">
+      <div class="founder-story r r2">
         <span class="eyebrow">The Visionary</span>
-        <h2>The Story Behind<br><span class="accent">Fill That Gap</span></h2>
+        <h2>THE STORY BEHIND <span class="gold">FILL THAT GAP.</span></h2>
         <p>From the small town of Anantapur to helping businesses across the globe scale online, Shahid Basha's entrepreneurial journey is built on determination, resilience, and an unwavering belief in the power of digital transformation.</p>
         <p>In 2019, while participating in a Startup India competition, Shahid discovered digital marketing. Although he did not win, the experience sparked a curiosity that would shape his entire future. Instead of waiting for opportunities, he created them.</p>
         <p>He began by offering free digital marketing services to local businesses. The results were remarkable, and one of those businesses became his first paying client — the seed of what would grow into Fill That Gap.</p>
@@ -931,97 +924,103 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ PRESENCE ═══════════════════ -->
-<section class="presence section-pad" id="presence">
-  <div class="container" style="text-align:center">
-    <div class="reveal">
-      <span class="eyebrow">Global Presence</span>
-      <h2 class="section-title">Delivering Growth Across<br><span class="accent">International Markets</span></h2>
-      <p class="section-desc" style="margin:0 auto 16px">Trusted by ambitious brands across five countries and growing.</p>
-    </div>
-    <div class="countries-grid reveal reveal-d1">
-      <div class="country-pill">
-        <svg width="18" height="18" style="color:var(--gold)"><use href="#ic-map-pin"/></svg>
-        <span class="country-name">India</span>
-      </div>
-      <div class="country-pill">
-        <svg width="18" height="18" style="color:var(--gold)"><use href="#ic-map-pin"/></svg>
-        <span class="country-name">United Arab Emirates</span>
-      </div>
-      <div class="country-pill">
-        <svg width="18" height="18" style="color:var(--gold)"><use href="#ic-map-pin"/></svg>
-        <span class="country-name">Saudi Arabia</span>
-      </div>
-      <div class="country-pill">
-        <svg width="18" height="18" style="color:var(--gold)"><use href="#ic-map-pin"/></svg>
-        <span class="country-name">United States</span>
-      </div>
-      <div class="country-pill">
-        <svg width="18" height="18" style="color:var(--gold)"><use href="#ic-map-pin"/></svg>
-        <span class="country-name">Zimbabwe</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ═══════════════════ TESTIMONIALS ═══════════════════ -->
-<section class="section-pad" id="testimonials" style="background:var(--black)">
+<!-- ══════════════════════════════════════
+     PROCESS
+══════════════════════════════════════ -->
+<section class="process section-pad" id="process">
   <div class="container">
-    <div style="text-align:center" class="reveal">
-      <span class="eyebrow">Client Stories</span>
-      <h2 class="section-title">Trusted By <span class="accent">Ambitious Brands</span></h2>
+    <div class="process-header r">
+      <span class="eyebrow">How We Work</span>
+      <h2>OUR PROCESS. <span class="gold">NO SURPRISES.</span></h2>
     </div>
-    <div class="testimonials-grid">
-      <div class="testi-card reveal reveal-d1">
-        <div class="stars">
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
+    <div class="process-list r r1">
+      <div class="process-item">
+        <div class="p-num">01.</div>
+        <div>
+          <div class="p-title">DISCOVERY & RESEARCH</div>
+          <p class="p-desc">We understand your brand, audience, and market before any creative decisions are made. No assumptions, just data and conversation.</p>
         </div>
-        <p class="testi-text">"Fill That Gap transformed our digital presence completely. Within 3 months, our lead volume tripled and our cost-per-lead dropped by over 60%."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">RK</div>
-          <div>
-            <div class="testi-name">Ravi Kumar</div>
-            <div class="testi-role">Founder, EduTech Startup · India</div>
-          </div>
-        </div>
+        <div class="p-icon-wrap"><svg width="18" height="18" style="color:var(--muted)"><use href="#i-discovery"/></svg></div>
       </div>
-      <div class="testi-card reveal reveal-d2">
-        <div class="stars">
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
+      <div class="process-item">
+        <div class="p-num">02.</div>
+        <div>
+          <div class="p-title">STRATEGY & CONCEPTS</div>
+          <p class="p-desc">We define strong creative and performance directions, shape concepts around your goals, and align on the growth strategy.</p>
         </div>
-        <p class="testi-text">"Their creative team produced ad content that outperformed everything we'd run before. The ROI from their campaigns has been extraordinary."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">MA</div>
-          <div>
-            <div class="testi-name">Mohammed Al-Rashid</div>
-            <div class="testi-role">CEO, Real Estate Group · UAE</div>
-          </div>
-        </div>
+        <div class="p-icon-wrap"><svg width="18" height="18" style="color:var(--muted)"><use href="#i-concept"/></svg></div>
       </div>
-      <div class="testi-card reveal reveal-d3">
-        <div class="stars">
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
-          <svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg>
+      <div class="process-item">
+        <div class="p-num">03.</div>
+        <div>
+          <div class="p-title">CREATIVE PRODUCTION</div>
+          <p class="p-desc">We explore bold creative routes and craft a direction that feels distinct, memorable, and built to convert.</p>
         </div>
-        <p class="testi-text">"Working with Shahid's team felt like having a full in-house marketing department. Strategy, creative, execution — all under one roof."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">PS</div>
-          <div>
-            <div class="testi-name">Priya Sharma</div>
-            <div class="testi-role">Director, Healthcare Brand · India</div>
+        <div class="p-icon-wrap"><svg width="18" height="18" style="color:var(--muted)"><use href="#i-design"/></svg></div>
+      </div>
+      <div class="process-item">
+        <div class="p-num">04.</div>
+        <div>
+          <div class="p-title">LAUNCH & OPTIMISE</div>
+          <p class="p-desc">We go live, measure relentlessly, and iterate with precision — polishing every detail to maximise your return on spend.</p>
+        </div>
+        <div class="p-icon-wrap"><svg width="18" height="18" style="color:var(--muted)"><use href="#i-refine"/></svg></div>
+      </div>
+      <div class="process-item">
+        <div class="p-num">05.</div>
+        <div>
+          <div class="p-title">SCALE & GROW</div>
+          <p class="p-desc">You receive production-ready assets, insights, and a complete system ready to scale — with us by your side for the long game.</p>
+        </div>
+        <div class="p-icon-wrap"><svg width="18" height="18" style="color:var(--muted)"><use href="#i-deliver"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     GLOBAL PRESENCE
+══════════════════════════════════════ -->
+<section class="presence section-pad" id="presence">
+  <div class="container">
+    <div class="presence-inner">
+      <div class="r">
+        <span class="eyebrow">Global Presence</span>
+        <h2 class="presence-left" style="font-family:var(--ff-display);font-size:clamp(48px,7vw,90px);letter-spacing:2px;line-height:.9;margin-bottom:28px;">DELIVERING GROWTH ACROSS <span class="gold">INTERNATIONAL MARKETS.</span></h2>
+        <p style="color:var(--muted);font-size:16px;line-height:1.85;margin-bottom:36px;">Trusted by ambitious brands across five countries and growing. We bring the same level of strategic execution wherever our clients are.</p>
+        <a href="#contact" class="btn btn-gold">
+          Work With Us
+          <svg width="16" height="16" style="color:#000"><use href="#i-arrow-r"/></svg>
+        </a>
+      </div>
+      <div class="r r2">
+        <div class="country-list">
+          <div class="country-row">
+            <svg width="16" height="16" style="color:var(--gold)" class="country-pin"><use href="#i-pin"/></svg>
+            <span class="country-name">India</span>
+            <span class="country-tag">Primary Market</span>
+          </div>
+          <div class="country-row">
+            <svg width="16" height="16" style="color:var(--gold)" class="country-pin"><use href="#i-pin"/></svg>
+            <span class="country-name">United Arab Emirates</span>
+            <span class="country-tag">Active</span>
+          </div>
+          <div class="country-row">
+            <svg width="16" height="16" style="color:var(--gold)" class="country-pin"><use href="#i-pin"/></svg>
+            <span class="country-name">Saudi Arabia</span>
+            <span class="country-tag">Active</span>
+          </div>
+          <div class="country-row">
+            <svg width="16" height="16" style="color:var(--gold)" class="country-pin"><use href="#i-pin"/></svg>
+            <span class="country-name">United States</span>
+            <span class="country-tag">Active</span>
+          </div>
+          <div class="country-row">
+            <svg width="16" height="16" style="color:var(--gold)" class="country-pin"><use href="#i-pin"/></svg>
+            <span class="country-name">Zimbabwe</span>
+            <span class="country-tag">Active</span>
           </div>
         </div>
       </div>
@@ -1031,218 +1030,247 @@
 
 <div class="section-divider"></div>
 
-<!-- ═══════════════════ FINAL CTA ═══════════════════ -->
-<section class="final-cta" id="contact">
-  <div class="cta-bg"></div>
-  <div class="cta-content reveal">
+<!-- ══════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════ -->
+<section class="testi section-pad" id="testimonials">
+  <div class="container">
+    <div class="testi-header r">
+      <span class="eyebrow">Client Stories</span>
+      <h2>WORDS FROM <span class="gold">THE WORK.</span></h2>
+    </div>
+  </div>
+
+  <!-- Row 1 — left to right -->
+  <div class="testi-marquee-wrap" style="margin-bottom:24px;">
+    <div class="testi-track">
+      <div class="testi-inner">
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+          </div>
+          <p class="tcard-text">"Fill That Gap transformed our digital presence completely. Within 3 months, our lead volume tripled and our cost-per-lead dropped by over 60%."</p>
+          <div class="tcard-author"><div class="tcard-av">RK</div><div><div class="tcard-name">Ravi Kumar</div><div class="tcard-role">Founder, EduTech Startup · India</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+          </div>
+          <p class="tcard-text">"Their creative team produced ad content that outperformed everything we'd run before. The ROI from their campaigns has been extraordinary."</p>
+          <div class="tcard-author"><div class="tcard-av">MA</div><div><div class="tcard-name">Mohammed Al-Rashid</div><div class="tcard-role">CEO, Real Estate Group · UAE</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+          </div>
+          <p class="tcard-text">"Working with Shahid's team felt like having a full in-house marketing department. Strategy, creative, execution — all under one roof."</p>
+          <div class="tcard-author"><div class="tcard-av">PS</div><div><div class="tcard-name">Priya Sharma</div><div class="tcard-role">Director, Healthcare Brand · India</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+            <svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg>
+          </div>
+          <p class="tcard-text">"They didn't just run our ads — they built a complete growth system. Our brand is now recognized across three cities. Phenomenal team."</p>
+          <div class="tcard-author"><div class="tcard-av">AR</div><div><div class="tcard-name">Ayesha Raza</div><div class="tcard-role">Founder, Fashion Label · Saudi Arabia</div></div></div>
+        </div>
+      </div>
+      <div class="testi-inner" aria-hidden="true">
+        <div class="tcard">
+          <div class="tcard-stars"><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg></div>
+          <p class="tcard-text">"Fill That Gap transformed our digital presence completely. Within 3 months, our lead volume tripled and our cost-per-lead dropped by over 60%."</p>
+          <div class="tcard-author"><div class="tcard-av">RK</div><div><div class="tcard-name">Ravi Kumar</div><div class="tcard-role">Founder, EduTech Startup · India</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars"><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg></div>
+          <p class="tcard-text">"Their creative team produced ad content that outperformed everything we'd run before. The ROI from their campaigns has been extraordinary."</p>
+          <div class="tcard-author"><div class="tcard-av">MA</div><div><div class="tcard-name">Mohammed Al-Rashid</div><div class="tcard-role">CEO, Real Estate Group · UAE</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars"><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg></div>
+          <p class="tcard-text">"Working with Shahid's team felt like having a full in-house marketing department. Strategy, creative, execution — all under one roof."</p>
+          <div class="tcard-author"><div class="tcard-av">PS</div><div><div class="tcard-name">Priya Sharma</div><div class="tcard-role">Director, Healthcare Brand · India</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars"><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg><svg width="13" height="13" style="color:var(--gold)"><use href="#i-star"/></svg></div>
+          <p class="tcard-text">"They didn't just run our ads — they built a complete growth system. Our brand is now recognized across three cities. Phenomenal team."</p>
+          <div class="tcard-author"><div class="tcard-av">AR</div><div><div class="tcard-name">Ayesha Raza</div><div class="tcard-role">Founder, Fashion Label · Saudi Arabia</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     FINAL CTA
+══════════════════════════════════════ -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <div class="cta-content r">
     <span class="eyebrow">Ready To Scale?</span>
-    <h2>Ready To Scale <span class="accent">Beyond Limits?</span></h2>
+    <h2>READY TO SCALE <span class="gold">BEYOND LIMITS?</span></h2>
     <p>Partner with Fill That Gap and unlock growth through creativity, performance marketing, AI innovation, and strategic execution. Your competition won't wait — neither should you.</p>
     <div class="cta-btns">
-      <a href="mailto:hello@fillthatgap.in" class="btn-primary open-booking">
+      <a href="mailto:hello@fillthatgap.in" class="btn btn-gold">
         Book A Strategy Session
-        <svg width="16" height="16"><use href="#ic-arrow-right"/></svg>
+        <svg width="16" height="16" style="color:#000"><use href="#i-arrow-r"/></svg>
       </a>
-      <a href="#services" class="btn-secondary">
-        Let's Build Your Growth Engine
-        <svg width="16" height="16"><use href="#ic-arrow-right"/></svg>
+      <a href="#services" class="btn btn-ghost">
+        Explore Services
+        <svg width="16" height="16"><use href="#i-arrow-r"/></svg>
       </a>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
 <footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="footer-logo">Fill That Gap</span>
-        <p>Bridging Businesses To Digital Success. A full-service growth agency built for the ambitions of tomorrow.</p>
-        <div class="social-links">
-          <a href="#" class="social-btn" title="LinkedIn" aria-label="LinkedIn">
-            <svg width="16" height="16" style="color:var(--text-muted)"><use href="#ic-linkedin"/></svg>
-          </a>
-          <a href="#" class="social-btn" title="Instagram" aria-label="Instagram">
-            <svg width="16" height="16" style="color:var(--text-muted)"><use href="#ic-instagram"/></svg>
-          </a>
-          <a href="#" class="social-btn" title="Facebook" aria-label="Facebook">
-            <svg width="16" height="16" style="color:var(--text-muted)"><use href="#ic-facebook"/></svg>
-          </a>
-          <a href="#" class="social-btn" title="YouTube" aria-label="YouTube">
-            <svg width="16" height="16" style="color:var(--text-muted)"><use href="#ic-youtube"/></svg>
-          </a>
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-logo-text">FILL THAT GAP</span>
+          <p class="footer-tagline">Bridging Businesses To Digital Success. A full-service growth agency built for the ambitions of tomorrow.</p>
+          <div class="social-row">
+            <a href="#" class="soc-btn" aria-label="LinkedIn"><svg width="16" height="16"><use href="#i-linkedin"/></svg></a>
+            <a href="#" class="soc-btn" aria-label="Instagram"><svg width="16" height="16"><use href="#i-instagram"/></svg></a>
+            <a href="#" class="soc-btn" aria-label="Facebook"><svg width="16" height="16"><use href="#i-facebook"/></svg></a>
+            <a href="#" class="soc-btn" aria-label="YouTube"><svg width="16" height="16"><use href="#i-youtube"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <a href="#about">About</a>
+          <a href="#founder">Founder</a>
+          <a href="#achievements">Results</a>
+          <a href="#presence">Global Presence</a>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <a href="#services">Performance Marketing</a>
+          <a href="#services">Creative Production</a>
+          <a href="#services">Social Media</a>
+          <a href="#services">AI Solutions</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <a href="mailto:hello@fillthatgap.in">hello@fillthatgap.in</a>
+          <a href="#contact">Book a Strategy Call</a>
+          <a href="#contact">Get a Proposal</a>
         </div>
       </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <a href="#about">About</a>
-        <a href="#founder">Founder</a>
-        <a href="#achievements">Achievements</a>
-        <a href="#presence">Global Presence</a>
-      </div>
-      <div class="footer-col">
-        <h5>Services</h5>
-        <a href="#services">Performance Marketing</a>
-        <a href="#services">Creative Production</a>
-        <a href="#services">Social Media</a>
-        <a href="#services">AI Solutions</a>
-      </div>
-      <div class="footer-col">
-        <h5>Contact</h5>
-        <a href="mailto:hello@fillthatgap.in">hello@fillthatgap.in</a>
-        <a href="#contact" class="open-booking">Book a Strategy Call</a>
-        <a href="#contact">Get a Proposal</a>
-      </div>
     </div>
+  </div>
+  <div class="container">
     <div class="footer-bottom">
       <div>© 2025 Fill That Gap. All rights reserved.</div>
-      <div>Built in Anantapur &nbsp;·&nbsp; Serving the <span class="gold">World</span></div>
+      <div>Built in Anantapur &nbsp;·&nbsp; Serving the <span class="hi">World</span></div>
     </div>
   </div>
 </footer>
 
-<!-- Booking modal -->
-<div id="bookingModal" class="modal-backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
-    <button class="modal-close" aria-label="Close">×</button>
-    <h3 id="bookingTitle">Book a Strategy Call</h3>
-    <div class="modal-desc">Share a few quick details and we'll reach out to schedule a short strategy session.</div>
-    <form id="bookingForm">
-      <label for="b-email">Email</label>
-      <input id="b-email" name="email" type="email" placeholder="you@company.com" required>
-      <label for="b-phone">Phone</label>
-      <input id="b-phone" name="phone" type="tel" placeholder="e.g. +91 98765 43210" required>
-      <label for="b-req">Requirements</label>
-      <textarea id="b-req" name="requirements" placeholder="Briefly describe your goals or requirements"></textarea>
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary modal-close">Cancel</button>
-        <button type="submit" class="btn-primary">Send Request</button>
-      </div>
-    </form>
-  </div>
-</div>
-
 <script>
-  // ── Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// ── Cursor glow
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+});
 
-  // ── Nav scroll
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('mainNav');
-    if (window.scrollY > 60) {
-      nav.style.background = 'rgba(5,5,7,0.96)';
-      nav.style.borderBottomColor = 'rgba(201,168,76,0.22)';
-    } else {
-      nav.style.background = 'rgba(5,5,7,0.75)';
-      nav.style.borderBottomColor = 'rgba(201,168,76,0.12)';
-    }
+// ── Nav scroll
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── Scroll reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); ro.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.r').forEach(el => ro.observe(el));
+
+// ── Counter animation
+function animateCount(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  if(!target) return;
+  const dur = 1800;
+  let start = null;
+  const step = ts => {
+    if(!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(e * target) + suffix;
+    if(p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+const co = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting && e.target.dataset.target){ animateCount(e.target); co.unobserve(e.target); } });
+}, { threshold: 0.6 });
+document.querySelectorAll('[data-target]').forEach(el => co.observe(el));
+
+// ── Process rows hover
+document.querySelectorAll('.process-item').forEach(item => {
+  item.addEventListener('mouseenter', () => item.querySelector('.p-icon-wrap').style.borderColor = 'var(--gold)');
+  item.addEventListener('mouseleave', () => item.querySelector('.p-icon-wrap').style.borderColor = 'var(--border2)');
+});
+
+// ── Video autoplay fallback
+const vid = document.querySelector('.hero-video-bg video');
+if(vid) {
+  vid.play().catch(() => {
+    // If autoplay fails, just hide video bg gracefully
+    vid.style.display = 'none';
   });
+}
 
-  // ── Counter animation
-  function runCounter(el) {
-    const target = parseInt(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    if (!target) return;
-    const duration = 1800;
-    let start = null;
-    const step = (ts) => {
-      if (!start) start = ts;
-      const progress = Math.min((ts - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
+// ── Cycle words one at a time
+const cycleWordsEl = document.querySelector('.cycle-words');
+if(cycleWordsEl) {
+  const words = cycleWordsEl.querySelectorAll('span');
+  let currentIndex = 0;
+  
+  // Function to update transform
+  function updateCycle() {
+    const wordHeight = words[0].offsetHeight;
+    const offset = -currentIndex * wordHeight;
+    cycleWordsEl.style.transform = 'translateY(' + offset + 'px)';
   }
-
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting && e.target.dataset.target) {
-        runCounter(e.target);
-        counterObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.6 });
-  document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
-
-  // ── Booking modal handlers
-  (function(){
-    const modal = document.getElementById('bookingModal');
-    const form = document.getElementById('bookingForm');
-    const openers = document.querySelectorAll('.open-booking');
-    const closes = modal.querySelectorAll('.modal-close');
-
-    function openModal(e){
-      if(e) e.preventDefault();
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      const first = modal.querySelector('input, textarea, button');
-      if(first) first.focus();
-    }
-    function closeModal(){
-      modal.classList.remove('active');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    openers.forEach(o => o.addEventListener('click', openModal));
-    closes.forEach(c => c.addEventListener('click', closeModal));
-    modal.addEventListener('click', (ev)=>{ if(ev.target === modal) closeModal(); });
-    document.addEventListener('keydown', (ev)=>{ if(ev.key === 'Escape') closeModal(); });
-
-    // Optional: set your Formspree form endpoint here (e.g. 'https://formspree.io/f/xyz')
-    const FORMSPREE_ENDPOINT = '';
-
-    form.addEventListener('submit', async (ev)=>{
-      ev.preventDefault();
-      const data = new FormData(form);
-      const email = data.get('email') || '';
-      const phone = data.get('phone') || '';
-      if(!email || !phone){ alert('Please enter your email and phone.'); return; }
-
-      const submitBtn = form.querySelector('button[type="submit"]');
-      submitBtn.disabled = true; submitBtn.textContent = 'Sending...';
-
-      if(FORMSPREE_ENDPOINT){
-        try{
-          const resp = await fetch(FORMSPREE_ENDPOINT, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
-          if(resp.ok){
-            alert('Thanks! Your request was sent. We will contact you soon.');
-            form.reset(); closeModal();
-          } else {
-            const json = await resp.json().catch(()=>null);
-            console.error('Formspree error', json || resp.statusText);
-            alert('There was an error sending your request. Please try again later.');
-          }
-        } catch(err){
-          console.error(err); alert('Network error. Please try again.');
-        }
-      } else {
-        // No endpoint configured — open user's mail client with prefilled message to admin
-        const adminEmail = 'hello@fillthatgap.in';
-        const subject = encodeURIComponent('Strategy call request from website');
-        const bodyLines = [
-          'Email: ' + email,
-          'Phone: ' + phone,
-          'Requirements:',
-          data.get('requirements') || ''
-        ];
-        const body = encodeURIComponent(bodyLines.join('\n'));
-        const mailto = `mailto:${adminEmail}?subject=${subject}&body=${body}`;
-        window.location.href = mailto;
-        form.reset();
-        closeModal();
-      }
-
-      submitBtn.disabled = false; submitBtn.textContent = 'Send Request';
-    });
-  })();
+  
+  // Keep each word in its own clipped slot
+  words.forEach(w => {
+    w.style.flex = '0 0 auto';
+  });
+  
+  // Initial display of first word
+  updateCycle();
+  window.addEventListener('resize', updateCycle);
+  
+  // Cycle every 1.25s
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % words.length;
+    updateCycle();
+  }, 1250);
+}
 </script>
 </body>
 </html>
