@@ -687,7 +687,20 @@ footer .container{
   .svc-desc{font-size:13px;line-height:1.6;}
   .svc-icon{display:none;}
   .svc-arrow{width:30px;height:30px;border:none;margin-top:0;}
-  .process-header{text-align:left;margin-bottom:28px;}
+  /* Mobile Process Progress Indicator */
+  .process-header{text-align:left;margin-bottom:8px;}
+  .process-header::after{
+    content:'';
+    display:block;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg,var(--gold-l),var(--gold));
+    border-radius:2px;
+    margin-top:16px;
+    --progress:0%;
+    width:var(--progress);
+    transition:width 0.3s ease;
+  }
   .process-list{
     display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
     max-width:none;margin:0 -20px;padding:0 20px 22px;
@@ -695,6 +708,7 @@ footer .container{
   }
   .process-list::-webkit-scrollbar{display:none;}
   .process-list::before{display:none;}
+  .process-list::after{display:none;}
   .process-item{
     flex:0 0 min(86vw,360px);display:block;padding:0;scroll-snap-align:center;
   }
@@ -712,9 +726,11 @@ footer .container{
   .stat-item{min-width:130px;border-right:none;border-bottom:1px solid var(--border);}
   .stat-item:last-child{border-bottom:none;}
   .hero-cycle-wrap{gap:10px;}
-  .footer-top{margin:0 16px 16px;padding:34px 0 24px;border-radius:18px;}
-  .footer-bottom{margin:0 16px;padding:18px;text-align:center;flex-direction:column;justify-content:center;}
-  .float-chat{right:18px;bottom:18px;width:54px;height:54px;}
+  .footer-top{margin:0 12px 16px;padding:24px 16px;border-radius:14px;}
+  .footer-grid{grid-template-columns:1fr;gap:24px;}
+  .footer-logo-text{font-size:22px;margin-bottom:12px;}
+  .footer-bottom{margin:0 12px;padding:14px;flex-direction:column;justify-content:center;gap:10px;font-size:12px;}
+  .float-chat{right:16px;bottom:16px;width:54px;height:54px;}
 }
 @media(max-width:500px){
   nav{left:10px;right:10px;}
@@ -1524,33 +1540,62 @@ if(processSection && processListEl) {
     const items = processListEl.querySelectorAll('.process-item');
     if(items.length === 0) return;
     
-    // Calculate which items are in view and fill circles
-    let visibleCount = 0;
-    items.forEach((item, idx) => {
-      const rect = item.getBoundingClientRect();
-      const itemCenter = rect.top + rect.height / 2;
-      const pNum = item.querySelector('.p-num');
-      
-      if(itemCenter < window.innerHeight) {
-        visibleCount = idx + 1;
-        // Add filled class if item is above viewport
-        if(pNum && rect.bottom < window.innerHeight) {
-          pNum.classList.add('filled');
+    // Check if mobile (horizontal scroll mode)
+    const isMobile = processListEl.style.overflowX === 'auto' || window.innerWidth <= 768;
+    
+    if(!isMobile) {
+      // Desktop: fill circles and timeline bar
+      let visibleCount = 0;
+      items.forEach((item, idx) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const pNum = item.querySelector('.p-num');
+        
+        if(itemCenter < window.innerHeight) {
+          visibleCount = idx + 1;
+          if(pNum && rect.bottom < window.innerHeight) {
+            pNum.classList.add('filled');
+          }
         }
+        
+        if(itemCenter >= window.innerHeight && pNum) {
+          pNum.classList.remove('filled');
+        }
+      });
+      
+      const progress = (visibleCount / items.length) * 100;
+      processListEl.style.setProperty('--timeline-progress', progress + '%');
+    }
+  });
+  
+  // Mobile: Auto-scroll slides
+  function autoScrollMobile() {
+    if(window.innerWidth > 768) return;
+    
+    let scrollPos = 0;
+    const itemWidth = processListEl.offsetWidth * 0.86; // 86vw
+    
+    setInterval(() => {
+      scrollPos += itemWidth + 16; // item width + gap
+      const maxScroll = processListEl.scrollWidth - processListEl.offsetWidth;
+      
+      if(scrollPos > maxScroll) {
+        scrollPos = 0;
       }
       
-      // Remove filled class if scrolled back up
-      if(itemCenter >= window.innerHeight && pNum) {
-        pNum.classList.remove('filled');
+      processListEl.scrollLeft = scrollPos;
+      
+      // Update progress indicator
+      const progress = (scrollPos / maxScroll) * 100;
+      const header = processSection.querySelector('.process-header');
+      if(header) {
+        header.style.setProperty('--progress', Math.min(100, progress) + '%');
       }
-    });
-    
-    // Calculate progress percentage (out of 5 items)
-    const progress = (visibleCount / items.length) * 100;
-    
-    // Update the timeline vertical bar height via CSS variable
-    processListEl.style.setProperty('--timeline-progress', progress + '%');
-  });
+    }, 3500); // Change slide every 3.5 seconds
+  }
+  
+  autoScrollMobile();
+  window.addEventListener('resize', autoScrollMobile);
 }
 </script>
 </body>
